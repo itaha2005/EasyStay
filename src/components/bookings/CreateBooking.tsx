@@ -1,0 +1,112 @@
+'use client';
+import React, { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+const CreateBooking: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const roomId = searchParams.get('roomId');
+
+  const [bookingData, setBookingData] = useState({
+    checkIn: '',
+    checkOut: '',
+    guests: 1,
+    specialRequests: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add booking logic here
+    navigate('/bookings');
+  };
+
+  return (
+    <div className="py-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-lg shadow-lg p-6"
+        >
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Book Your Stay</h2>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Check-in Date
+                </label>
+                <input
+                  type="date"
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  value={bookingData.checkIn}
+                  onChange={(e) => setBookingData({ ...bookingData, checkIn: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Check-out Date
+                </label>
+                <input
+                  type="date"
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  value={bookingData.checkOut}
+                  onChange={(e) => setBookingData({ ...bookingData, checkOut: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Number of Guests
+              </label>
+              <select
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                value={bookingData.guests}
+                onChange={(e) => setBookingData({ ...bookingData, guests: Number(e.target.value) })}
+              >
+                {[1, 2, 3, 4].map(num => (
+                  <option key={num} value={num}>{num} Guest{num > 1 ? 's' : ''}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Special Requests
+              </label>
+              <textarea
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                rows={4}
+                value={bookingData.specialRequests}
+                onChange={(e) => setBookingData({ ...bookingData, specialRequests: e.target.value })}
+              />
+            </div>
+
+            <div className="flex justify-end space-x-4">
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Confirm Booking
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateBooking;
