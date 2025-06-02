@@ -16,6 +16,11 @@ const Login: React.FC = () => {
     navigate('/dashboard');
   };
 
+  // Admin login function - simple navigation
+  const handleAdminLogin = () => {
+    navigate('/admin');
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
@@ -61,9 +66,19 @@ const Login: React.FC = () => {
             </button>
           </div>
         </form>
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={handleAdminLogin}
+            className="w-full py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-md transition-colors"
+          >
+            Login as Admin
+          </button>
+        </div>
       </motion.div>
     </div>
   );
 };
 
 export default Login;
+

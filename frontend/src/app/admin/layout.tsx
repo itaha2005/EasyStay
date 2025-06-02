@@ -1,17 +1,16 @@
 'use client';
 import React from 'react';
+import AdminDashboard from './AdminDashboard';
 
 
-export default function AdminLayout({
+export default function AdminSectionLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex-1 ml-64">
-        {children}
-      </div>
-    </div>
+    <AdminDashboard>
+      {children}
+    </AdminDashboard>
   );
 }

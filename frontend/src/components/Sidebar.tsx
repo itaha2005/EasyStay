@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { motion } from 'framer-motion';
 
 interface SidebarProps {
@@ -10,6 +10,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const menuItems = [
     // { title: 'Home', path: '/', icon: '🏠' },
     { title: 'Dashboard', path: '/dashboard', icon: '📊' },
@@ -18,6 +20,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { title: 'Profile', path: '/profile', icon: '👤' },
     { title: 'Notifications', path: '/notifications', icon: '🔔' },
   ];
+
+  const handleLogout = () => {
+    // Add any logout logic here (e.g., clearing tokens, user state)
+    navigate('/'); // Navigate to the home page
+    onClose(); // Close the sidebar if it's open on mobile
+  };
 
   return (
     <>
@@ -57,6 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                           ${location.pathname === item.path 
                             ? 'bg-blue-50 text-blue-600' 
                             : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'}`}
+                onClick={onClose} // Close sidebar on navigation for mobile
               >
                 <span className="text-xl">{item.icon}</span>
                 <span>{item.title}</span>
@@ -64,7 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             ))}
             
             <button
-              onClick={() => {/* Add logout logic */}}
+              onClick={handleLogout} // Updated onClick handler
               className="flex items-center space-x-3 p-3 rounded-lg w-full text-red-600 hover:bg-red-50"
             >
               <span className="text-xl">🚪</span>

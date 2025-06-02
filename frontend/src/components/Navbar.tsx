@@ -1,6 +1,6 @@
-'use client';
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+"use client";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   onMenuClick?: () => void;
@@ -17,13 +17,17 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
 
   const scrollToSection = (ref: React.RefObject<HTMLElement> | undefined) => {
     if (ref?.current) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollIntoView({ behavior: "smooth" });
       setIsMobileMenuOpen(false);
     }
+  };
+  const handleLogout = () => {
+    // Add any logout logic here (e.g., clearing tokens, user state)
+    navigate("/"); // Navigate to the home page
   };
 
   return (
@@ -36,8 +40,18 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
                 className="p-2 rounded-md md:hidden"
                 onClick={onMenuClick}
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
             )}
@@ -50,12 +64,42 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
             <>
               {/* Desktop Menu */}
               <div className="hidden md:flex items-center space-x-8">
-                <button onClick={() => scrollToSection(refs?.aboutRef)} className="text-gray-600 hover:text-blue-600">About</button>
-                <button onClick={() => scrollToSection(refs?.featuresRef)} className="text-gray-600 hover:text-blue-600">Features</button>
-                <button onClick={() => scrollToSection(refs?.roomsRef)} className="text-gray-600 hover:text-blue-600">Rooms</button>
-                <button onClick={() => scrollToSection(refs?.contactRef)} className="text-gray-600 hover:text-blue-600">Contact</button>
-                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">Login</Link>
-                <Link to="/register" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Register</Link>
+                <button
+                  onClick={() => scrollToSection(refs?.aboutRef)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  About
+                </button>
+                <button
+                  onClick={() => scrollToSection(refs?.featuresRef)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollToSection(refs?.roomsRef)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Rooms
+                </button>
+                <button
+                  onClick={() => scrollToSection(refs?.contactRef)}
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Contact
+                </button>
+                <Link
+                  to="/login"
+                  className="text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  Register
+                </Link>
               </div>
 
               {/* Mobile Menu Button */}
@@ -64,17 +108,27 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="p-2 rounded-md text-gray-600 hover:text-blue-600"
                 >
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
                   </svg>
                 </button>
               </div>
             </>
           ) : (
             <div className="flex items-center space-x-4">
-              <button 
+              <button
                 className="p-2 rounded-full hover:bg-gray-100"
-                onClick={() => navigate('/notifications')}
+                onClick={() => navigate("/notifications")}
               >
                 <span className="text-xl">🔔</span>
               </button>
@@ -87,9 +141,24 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
                 </button>
                 {isProfileOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
-                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</Link>
-                    <Link to="/bookings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Bookings</Link>
-                    <button className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</button>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      to="/bookings"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      My Bookings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
                   </div>
                 )}
               </div>
@@ -101,37 +170,37 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
         {isHomePage && isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <button 
+              <button
                 onClick={() => scrollToSection(refs?.aboutRef)}
                 className="block w-full text-left px-3 py-2 text-gray-600 hover:text-blue-600"
               >
                 About
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection(refs?.featuresRef)}
                 className="block w-full text-left px-3 py-2 text-gray-600 hover:text-blue-600"
               >
                 Features
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection(refs?.roomsRef)}
                 className="block w-full text-left px-3 py-2 text-gray-600 hover:text-blue-600"
               >
                 Rooms
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection(refs?.contactRef)}
                 className="block w-full text-left px-3 py-2 text-gray-600 hover:text-blue-600"
               >
                 Contact
               </button>
-              <Link 
+              <Link
                 to="/login"
                 className="block px-3 py-2 text-blue-600 hover:text-blue-700"
               >
                 Login
               </Link>
-              <Link 
+              <Link
                 to="/register"
                 className="block px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
