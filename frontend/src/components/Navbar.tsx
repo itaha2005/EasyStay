@@ -80,12 +80,12 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, refs }) => {
                   onClick={() => scrollToSection(refs?.roomsRef)}
                   className="text-gray-600 hover:text-blue-600"
                 >
-                  Rooms
+                  {/* Rooms
                 </button>
                 <button
                   onClick={() => scrollToSection(refs?.contactRef)}
                   className="text-gray-600 hover:text-blue-600"
-                >
+                > */}
                   Contact
                 </button>
                 <Link
