@@ -1,6 +1,6 @@
 'use client';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 interface Booking {
@@ -12,19 +12,39 @@ interface Booking {
   guests: number;
 }
 
+// Initial mock bookings data
+const initialMockBookings: Booking[] = [
+  {
+    id: 1, // Ensure this ID is different from potential new booking IDs (like timestamps)
+    roomName: "Deluxe Ocean View",
+    checkIn: "2025-06-01",
+    checkOut: "2025-06-05",
+    status: "active",
+    guests: 2
+  },
+  // Add more mock bookings as needed
+];
+
 const BookingsList: React.FC = () => {
-  // Mock bookings data
-  const bookings: Booking[] = [
-    {
-      id: 1,
-      roomName: "Deluxe Ocean View",
-      checkIn: "2025-06-01",
-      checkOut: "2025-06-05",
-      status: "active",
-      guests: 2
-    },
-    // Add more mock bookings as needed
-  ];
+  const location = useLocation();
+  const navigate = useNavigate(); // To clear location state
+  const [bookings, setBookings] = useState<Booking[]>(initialMockBookings);
+  const processedBookingIdRef = useRef<number | null>(null); // To track if new booking is already added
+
+  useEffect(() => {
+    const newBookingFromState = location.state?.newBooking as Booking | undefined;
+
+    if (newBookingFromState && newBookingFromState.id !== processedBookingIdRef.current) {
+      setBookings(prevBookings => [newBookingFromState, ...prevBookings]);
+      processedBookingIdRef.current = newBookingFromState.id; // Mark as processed
+
+      // Optional: Clear the location.state to prevent re-adding if the component re-renders
+      // or if the user navigates back and forth using browser buttons without a full refresh.
+      // This replaces the current history entry with the same path but empty state.
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, location.pathname, navigate]);
+
 
   const getStatusColor = (status: Booking['status']) => {
     switch (status) {
@@ -52,11 +72,17 @@ const BookingsList: React.FC = () => {
 
         <div className="bg-white shadow overflow-hidden sm:rounded-md">
           <ul className="divide-y divide-gray-200">
+            {bookings.length === 0 && (
+                <li className="px-4 py-4 sm:px-6 text-center text-gray-500">
+                    No bookings yet.
+                </li>
+            )}
             {bookings.map((booking) => (
               <motion.li
                 key={booking.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 className="hover:bg-gray-50"
               >
                 <div className="px-4 py-4 sm:px-6">

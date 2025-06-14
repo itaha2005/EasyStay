@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -10,6 +11,8 @@ const Layout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  // Add '/' to the noSidebarRoutes array
+  const noSidebarRoutes = ['/', '/login', '/register'];
 
   // Define refs for home sections
   const aboutRef = useRef<HTMLElement>(null);
@@ -20,13 +23,16 @@ const Layout: React.FC = () => {
   // Group refs for Navbar and HomePage
   const homeRefs = { aboutRef, featuresRef, roomsRef, contactRef };
 
+  // Determine if the sidebar should be shown based on the current route
+  const showSidebar = !noSidebarRoutes.includes(location.pathname);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar 
         onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} 
         refs={isHomePage ? homeRefs : undefined} 
       />
-      {!isHomePage && (
+      {showSidebar && (
         <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       )}
       
